@@ -1,0 +1,120 @@
+import React, { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+
+import { Row, Column, Button, Desktop } from '@worldresources/gfw-components';
+
+import Dropdown from 'components/ui/dropdown';
+import Icon from 'components/ui/icon';
+import { GFW_DOMAIN } from 'utils/external-links';
+
+import arrowDownIcon from 'assets/icons/arrow-down.svg?sprite';
+
+import { getProjectsProps } from 'layouts/grants-and-fellowships/projects/selectors';
+
+const AboutProjectsSection = ({
+  sgfProjects: allProjects,
+  countries: allCountries,
+}) => {
+  const [country, setCountry] = useState(null);
+
+  const { countries } = useMemo(
+    () =>
+      getProjectsProps({
+        projects: allProjects,
+      }),
+    [allProjects]
+  );
+
+  const countryOptions = useMemo(
+    () =>
+      allCountries
+        ?.filter(({ iso }) => countries.includes(iso))
+        .map(({ iso, name }) => ({ label: name, value: iso })),
+    [allCountries, countries]
+  );
+
+  return (
+    <>
+      <div className="l-section-projects">
+        <Row>
+          <Column width={[1, 17 / 36]}>
+            <h3>WHO HAS USED GLOBAL FOREST WATCH?</h3>
+            <p>
+              Thousands of people around the world have used GFW every day to
+              monitor and manage forests, stop illegal deforestation and fires,
+              call out unsustainable activities, defend their land and
+              resources, sustainably source commodities, and conduct research at
+              the forefront of conservation.
+            </p>
+            <a
+              href={`${GFW_DOMAIN}/help/`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="help-btn">Visit our Help Center</Button>
+            </a>
+          </Column>
+          <Column width={[1, 2 / 36]} />
+          <Column width={[1, 17 / 36]}>
+            <h3>HOW HAVE PEOPLE USED GLOBAL FOREST WATCH?</h3>
+            <p>
+              Click{' '}
+              <Link href="/grants-and-fellowships">
+                <a target="_blank" rel="noopener noreferrer">
+                  here
+                </a>
+              </Link>{' '}
+              to learn about how others have used Global Nature Watch in their
+              network.
+            </p>
+
+            <p>You can also choose a country from the list below:</p>
+            <div className="country-selector">
+              <Dropdown
+                theme="theme-dropdown-native large country-dropdown"
+                options={[
+                  { label: 'Select country', value: null, disabled: !!country },
+                  ...countryOptions,
+                ]}
+                value={country}
+                onChange={setCountry}
+                native
+              />
+              {country ? (
+                <a
+                  href={`/grants-and-fellowships/projects/?country=${country}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button round size="big" className="country-button">
+                    <Icon icon={arrowDownIcon} />
+                  </Button>
+                </a>
+              ) : (
+                <Button round size="big" className="country-button" disabled>
+                  <Icon icon={arrowDownIcon} />
+                </Button>
+              )}
+            </div>
+          </Column>
+        </Row>
+        <Desktop>
+          <div className="visitors">
+            <h4>
+              Since its launch in 2014, over 9 million people have visited
+              Global Nature Watch from every single country in the world.
+            </h4>
+          </div>
+        </Desktop>
+      </div>
+    </>
+  );
+};
+
+AboutProjectsSection.propTypes = {
+  sgfProjects: PropTypes.array,
+  countries: PropTypes.array,
+};
+
+export default AboutProjectsSection;

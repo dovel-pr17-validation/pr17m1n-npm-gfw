@@ -1,0 +1,50 @@
+[
+  {
+    "label": "Summary",
+    "value": "summary"
+  },
+  {
+    "label": "Land cover",
+    "value": "land-cover"
+  },
+  {
+    "label": "Forest change",
+    "value": "forest-change",
+    "subcategories":
+      [
+        {
+          "label": "Forest Loss",
+          "value": "forest-loss"
+        },
+        {
+          "label": "Forest Gain",
+          "value": "forest-gain"
+        },
+        {
+          "label": "Net Forest Change",
+          "value": "net-change"
+        }
+      ],
+    "settings": {
+      "dashboard": {
+        "groupBySubcategory": true
+      }
+    }
+  },
+  {
+    "label": "Biodiversity",
+    "value": "biodiversity"
+  },
+  {
+    "label": "Land Use",
+    "value": "land-use"
+  },
+  {
+    "label": "Fires",
+    "value": "fires"
+  },
+  {
+    "label": "Climate",
+    "value": "climate"
+  }
+]

@@ -1,0 +1,223 @@
+{
+  "extent": {
+    "main": "#a0c746",
+    "ramp": [
+      "#364a08",
+      "#42590E",
+      "#506917",
+      "#6b8729",
+      "#84a637",
+      "#a0c746",
+      "#b8d86d",
+      "#c7e67c",
+      "#d2f189",
+      "#dff7a6"
+    ],
+    "naturalForest": "#506917",
+    "intactForest": "#6b8729",
+    "primaryForest": "#84a637",
+    "plantedForest": "#a0c746",
+    "otherCover": "#a0c746",
+    "nonForest": "#e7e5a4"
+  },
+  "loss": {
+    "main": "#fe6598",
+    "gladRecent": "#e4c600",
+    "gladOther": "#ffbad4",
+    "integratedHigh": "#dc6699",
+    "integratedHighest": "#c92a6d",
+    "integratedLow": "#eda4c3",
+    "ramp": [
+      "#510626",
+      "#7a1e41",
+      "#a4355c",
+      "#d04d7a",
+      "#fe6598",
+      "#ff84ac",
+      "#ffa0c0",
+      "#ffbad4",
+      "#ffd4e9"
+    ],
+    "noLoss": "#e7e5a4",
+    "primaryForestLoss": "#bed65c",
+    "primaryForestExtent": "#658434",
+    "lossDrivers": {
+      "Commodity driven deforestation": "#F41D36",
+      "Shifting agriculture": "#efd31a",
+      "Forestry": "#2FBF71",
+      "Urbanization": "#B235CC",
+      "Unknown": "#555",
+      "Logging": "#51A44E",
+      "Shifting cultivation": "#E9D700",
+      "Wildfire": "#895128",
+      "Other natural disturbances": "#3A209A",
+      "Settlements & Infrastructure": "#A354A0",
+      "Hard commodities": "#E58074",
+      "Permanent agriculture": "#E39D29"
+    }
+  },
+  "gain": {
+    "main": "#6d6de5",
+    "ramp": [
+      "#070752",
+      "#231f74",
+      "#3c3898",
+      "#5452be",
+      "#6d6de5",
+      "#8a86ec",
+      "#a49ff3",
+      "#bdb9f9",
+      "#d4d4ff"
+    ],
+    "noGain": "#e7e5a4",
+    "extent": "#a0c746"
+  },
+  "climate": {
+    "main": "#5b80a0",
+    "ramp": ["#EDD093", "#BFBC35", "#007F53", "#123A33"],
+    "carbon": ["#895122", "#898522", "#892227"],
+    "carbonFlux": {
+      "emissions": "#912f34",
+      "netEmissions": "#c96184",
+      "netRemovals": "#BFC64E",
+      "removals": "#629144"
+    },
+    "loss": {
+      "main": "#DF511E",
+      "secondary": "#F9A000"
+    },
+    "lossDrivers": {
+      "Commodity driven deforestation": "#DF511E",
+      "Shifting agriculture": "#F9A000",
+      "Forestry": "#898522",
+      "Urbanization": "#892227",
+      "Unknown": "#555",
+      "Logging": "#51A44E",
+      "Shifting cultivation": "#E9D700",
+      "Wildfire": "#895128",
+      "Other natural disturbances": "#3A209A",
+      "Settlements & Infrastructure": "#A354A0",
+      "Hard commodities": "#E58074",
+      "Permanent agriculture": "#E39D29"
+    }
+  },
+  "plantations": {
+    "main": "#d67828",
+    "species": {
+      "oil palm": "#fdada9",
+      "wood fiber or timber": "#98a7c4",
+      "rubber": "#9993a3",
+      "fruit": "#dada95",
+      "other": "#d1e6ab",
+      "wood fiber or timber mix": "#9ebbf2",
+      "oil palm mix": "#fcc4c1",
+      "rubber mix": "#a4fdff",
+      "fruit mix": "#fefe97",
+      "other mix": "#e1efc8",
+      "unknown": "#dcd9d9",
+      "recently cleared": "#d5a6ea",
+      "unknown mix": "#a0c746"
+    },
+    "types": {
+      "Large industrial plantation": "#fdada9",
+      "Mosaic of medium-sized plantations": "#d5a6ea",
+      "Mosaic of small-sized plantations": "#a6d19f",
+      "Clearing/ very young plantation": "#d5b7a0"
+    },
+    "categories": {
+      "Other": "#000000",
+      "Agriculture": "#D2A965",
+      "Forest": "#157764",
+      "Shrubland": "#596B2C",
+      "Grassland": "#CCDB98",
+      "Sparse vegetation": "#D5C998",
+      "Wetland": "#2789D4",
+      "Settlement": "#E9462B",
+      "Bare": "#F6F0EA",
+      "Water": "#A3DCFF",
+      "Permanent Snow and Ice": "#e0e0e0",
+
+      "Deciduous forest": "#68ab5f",
+      "Evergreen forest": "#1c5f2c",
+      "Mixed forest": "#b5c58f",
+      "Shrub/scrub": "#ccb879",
+      "Grassland/herbaceous": "#dfdfc2",
+      "Cultivated crops": "#ab6c28",
+      "Pasture/hay": "#dcd939",
+      "Developed open space": "#dec5c5",
+      "Developed low intensity": "#d99282",
+      "Developed medium intensity": "#eb0000",
+      "Developed high intensity": "#ab0000",
+      "Woody wetlands": "#b8d9eb",
+      "Emergent herbaceous wetlands": "#6c9fb8",
+      "Barren land (rock/sand/clay)": "#b3ac9f",
+      "Perennial ice/snow": "#d1def8",
+      "Water Body": "#466b9f"
+    }
+  },
+  "emissions": {
+    "main": "#5b80a0",
+    "ramp": [
+      "#073452",
+      "#204665",
+      "#345978",
+      "#476c8c",
+      "#5b80a0",
+      "#799ab7",
+      "#97b4cf",
+      "#b5cfe7",
+      "#d4ebff"
+    ]
+  },
+  "fires": {
+    "main": "#f14600",
+    "ramp": [
+      "#940f07",
+      "#b11509",
+      "#cd2009",
+      "#e73108",
+      "#fe4605",
+      "#ff7104",
+      "#ff9203",
+      "#ffb004",
+      "#fecc05"
+    ],
+    "compareYear": "#49b5e3",
+    "compareYearRamp": ["#49b5e3", "#D0ECF8"],
+    "otherColor": "#AAAAAA"
+  },
+  "lossFires": {
+    "main": "#9A5B50",
+    "treeCoverLoss": "#FE6598"
+  },
+  "netChange": {
+    "main": "#9A5B50",
+    "stable": "#86B64A",
+    "gain": "#646EA7",
+    "loss": "#A25A94",
+    "disturb": "#FF7F5F"
+  },
+  "economicImpact": {
+    "main": "#A878F3",
+    "expenditure": "#A878F3",
+    "revenue": "#7C38C5"
+  },
+  "forestryEmployment": {
+    "logging": "#EEE8D6",
+    "gathering": "#BCADDA",
+    "support" : "#9A85DD",
+    "silviculture" : "#5A50A7"
+  },
+  "biodiversity": {
+    "main": "#6d00e1",
+    "ramp": ["#6d00e1", "#9d36f7", "#c26dfe", "#dfa4ff", "#eccafc"]
+  },
+  "gainWithinOutsidePlantations": {
+    "withinPlantations": "#A58BF9",
+    "outsidePlantations": "#3F07F5"
+  },
+  "density": {
+    "main": "#99be3f",
+    "treeCoverDensity": "#99be3f"
+  }
+}

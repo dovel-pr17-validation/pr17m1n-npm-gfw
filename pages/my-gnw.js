@@ -1,0 +1,34 @@
+import PageLayout from 'wrappers/page';
+import MyGfw from 'layouts/my-gfw';
+
+import PropTypes from 'prop-types';
+
+import { getPublishedNotifications } from 'services/notifications';
+
+const MyGfwPage = (props) => (
+  <PageLayout
+    title="My GNW | Global Nature Watch"
+    description="Create an account or log into My GNW. Explore the status of forests in custom areas by layering data to create custom maps of forest change, cover and use."
+    noIndex
+    notifications={props.notifications}
+  >
+    <MyGfw />
+  </PageLayout>
+);
+
+export const getStaticProps = async () => {
+  const notifications = await getPublishedNotifications();
+
+  return {
+    props: {
+      notifications: notifications || [],
+    },
+    revalidate: 10,
+  };
+};
+
+MyGfwPage.propTypes = {
+  notifications: PropTypes.array,
+};
+
+export default MyGfwPage;

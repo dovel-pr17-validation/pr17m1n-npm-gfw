@@ -1,0 +1,111 @@
+@import '~styles/settings.scss';
+
+.c-pie-chart-legend {
+  display: inline-block;
+  width: 100%;
+
+  &-grouped {
+    flex-direction: column;
+  }
+
+  .legend-group {
+    display: flex;
+    flex-direction: column;
+
+    .legend-group-title {
+      margin-bottom: 0.9375rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+
+    .legend-group-list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .legend-group-list.grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(8.125rem, 1fr));
+      grid-gap: 0.625rem;
+    }
+
+    /* Ensure legend items take full width within their grid cell */
+    .legend-group-list.grid-layout .legend-item {
+      width: 100%;
+    }
+  }
+
+  .legend-title {
+    font-size: 0.75rem;
+    line-height: 1;
+    color: $slate;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    span {
+      display: inline-block;
+      width: 0.75rem;
+      min-width: 0.75rem;
+      min-height: 0.75rem;
+      height: 0.75rem;
+      margin-right: 0.4375rem;
+      border-radius: 100%;
+      align-self: flex-start;
+      margin-top: 0.0625rem;
+    }
+
+    p {
+      color: $slate;
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+  }
+
+  .legend-value {
+    padding: rem(5px) 0 0 rem(18px);
+    font-size: rem(27px);
+    font-weight: 500;
+    margin-bottom: rem(20px);
+
+    &--small {
+      font-size: rem(20px);
+    }
+  }
+
+  .small {
+    .legend-value {
+      padding: 0 0 0 rem(20px);
+      font-size: rem(22px);
+      margin-bottom: rem(10px);
+    }
+  }
+
+  .x-small {
+    .legend-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: rem(5px);
+    }
+
+    .legend-value {
+      display: none;
+    }
+  }
+
+  .simple {
+    &.small {
+      .legend-value {
+        font-size: rem(18px);
+      }
+    }
+  }
+}
+
+.top-margin-20 {
+  margin-top: 1.25rem;
+}

@@ -1,0 +1,156 @@
+import axios, { CancelToken } from 'axios';
+import wriAPISerializer from 'wri-json-api-serializer';
+
+import {
+  MAPBOX_API,
+  RESOURCE_WATCH_API,
+  GFW_DATA_API,
+  GFW_STAGING_DATA_API,
+  GFW_API,
+  GFW_METADATA_API,
+  GFW_STAGING_METADATA_API,
+} from 'utils/apis';
+import { PROXIES } from './proxies';
+
+const ENVIRONMENT = process.env.NEXT_PUBLIC_FEATURE_ENV;
+
+// We never use the staging api
+const GFW_API_URL = GFW_API;
+const GFW_WIDGET_METADATA_API_URL =
+  ENVIRONMENT === 'staging' ? GFW_STAGING_METADATA_API : GFW_METADATA_API;
+export const DATA_API_URL =
+  ENVIRONMENT === 'staging' ? GFW_STAGING_DATA_API : GFW_DATA_API;
+
+// We never use the `staging-api.resourcewatch.org`.
+const RESOURCE_WATCH_API_URL = RESOURCE_WATCH_API;
+
+// At the moment, the API key is the same
+const GFW_API_KEY = process.env.NEXT_PUBLIC_GFW_API_KEY;
+const DATA_API_KEY = GFW_API_KEY;
+
+const isServer = typeof window === 'undefined';
+
+const userToken = !isServer && localStorage.getItem('userToken');
+
+const defaultRequestConfig = {
+  timeout: 30 * 1000,
+};
+
+export const apiRequest = axios.create({
+  ...defaultRequestConfig,
+  ...(isServer && {
+    baseURL: GFW_API_URL,
+  }),
+  ...(!isServer && {
+    baseURL: PROXIES.GFW_API,
+  }),
+});
+
+export const dataRequest = axios.create({
+  ...defaultRequestConfig,
+  ...(isServer && {
+    baseURL: DATA_API_URL,
+    headers: {
+      'x-api-key': DATA_API_KEY,
+    },
+  }),
+  ...(!isServer && {
+    baseURL: PROXIES.DATA_API,
+  }),
+  transformResponse: [(data) => JSON.parse(data)?.data],
+});
+
+export const metadataRequest = axios.create({
+  ...defaultRequestConfig,
+  ...(isServer && {
+    baseURL: DATA_API_URL,
+  }),
+  ...(!isServer && {
+    baseURL: PROXIES.METADATA_API,
+  }),
+});
+
+const getWidgetBaseUrl = () => {
+  if (isServer) {
+    return GFW_WIDGET_METADATA_API_URL;
+  }
+  return PROXIES.WIDGET_METADATA_API;
+};
+
+export const metadataWidgetRequest = {
+  get: async (endpoint, options = {}) => {
+    const baseUrl = getWidgetBaseUrl();
+    const config = {
+      method: 'GET',
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        'If-None-Match': '', // impede cache baseado em ETag
+        ...(options.headers || {}),
+      },
+      ...defaultRequestConfig,
+      ...options,
+    };
+
+    const url = `${baseUrl}/${endpoint}?_=${Date.now()}`;
+    const response = await fetch(url, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data?.error || `Request failed with status ${response.status}`
+      );
+    }
+
+    return {
+      data,
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+      config,
+      request: response,
+    };
+  },
+};
+
+export const rwRequest = axios.create({
+  ...defaultRequestConfig,
+  ...(isServer && {
+    baseURL: RESOURCE_WATCH_API_URL,
+  }),
+  ...(!isServer && {
+    baseURL: PROXIES.RESOURCE_WATCH_API,
+  }),
+  transformResponse: [(data) => wriAPISerializer(JSON.parse(data))],
+});
+
+export const apiAuthRequest = axios.create({
+  ...defaultRequestConfig,
+  ...(isServer && {
+    baseURL: GFW_API_URL,
+    headers: {
+      'content-type': 'application/json',
+    },
+  }),
+  ...(!isServer && {
+    baseURL: PROXIES.GFW_API,
+    headers: {
+      'content-type': 'application/json',
+      ...(userToken && {
+        Authorization: `Bearer ${userToken}`,
+      }),
+    },
+  }),
+});
+
+export const mapboxRequest = axios.create({
+  ...defaultRequestConfig,
+  baseURL: MAPBOX_API,
+});
+
+export const cancelToken = () => CancelToken.source();
+
+export default axios.create({
+  ...defaultRequestConfig,
+});

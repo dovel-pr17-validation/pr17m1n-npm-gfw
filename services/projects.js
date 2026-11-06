@@ -1,0 +1,106 @@
+import apiFetch from '@wordpress/api-fetch';
+import axios from 'axios';
+
+import { getCountriesProvider } from 'services/country';
+
+apiFetch.setFetchHandler(async (options) => {
+  const headers = { 'Content-Type': 'application/json' };
+
+  const { url, path, data, method, params } = options;
+
+  return axios({
+    headers,
+    url: url || path,
+    method,
+    data,
+    params,
+  });
+});
+
+const formatProjects = (projectsData) => {
+  const countries = projectsData?.[1]?.data;
+  const projects = projectsData?.[0]?.data;
+
+  if (!projects) {
+    return {};
+  }
+
+  return projects.map((project) => {
+    const { title, acf: advancedCustomFields } = project;
+    const itemCountries = countries.filter(
+      (country) =>
+        advancedCustomFields.country &&
+        advancedCustomFields.country.indexOf(country.iso) > -1
+    );
+
+    return {
+      id: parseInt(advancedCustomFields.id, 10),
+      title: title.rendered,
+      sector: advancedCustomFields.sector,
+      summary: advancedCustomFields.short_description,
+      description: advancedCustomFields.long_description,
+      meta: `${advancedCustomFields.year}${
+        itemCountries &&
+        ` - ${itemCountries.map((country) => country.name).join(', ')}`
+      }`,
+      year: advancedCustomFields.year,
+      countries: advancedCustomFields.country,
+      image: advancedCustomFields.images?.[0] || null,
+      images: advancedCustomFields.images || null,
+      blogSentence: advancedCustomFields.blog_sentence,
+      blogLink: advancedCustomFields.hyperlinks_for_blog_sentence,
+      latitude: advancedCustomFields.latitude_average || null,
+      longitude: advancedCustomFields.longitude_average || null,
+      categories: [
+        advancedCustomFields.project_type_1,
+        advancedCustomFields.project_type_2,
+      ],
+    };
+  });
+};
+
+export async function getSGFProjects({
+  cancelToken,
+  params,
+  allLanguages,
+} = {}) {
+  const projectsData = await Promise.all([
+    apiFetch({
+      url: `${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp/v2/gaf_projects`,
+      params: {
+        ...params,
+        _embed: true,
+        ...(!allLanguages && {
+          lang: 'en',
+        }),
+      },
+      cancelToken,
+    }),
+    getCountriesProvider(),
+  ]);
+
+  const formattedProjects = formatProjects(projectsData);
+  const totalPages = parseInt(projectsData[0].headers['x-wp-totalpages'], 10);
+
+  return { sgfProjects: formattedProjects, totalPages };
+}
+
+export async function getSGFCountries({
+  cancelToken,
+  params,
+  allLanguages,
+} = {}) {
+  const countries = await apiFetch({
+    url: `${process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp/v2/gaf_projects?&_fields[]=acf.country&per_page=100`,
+    params: {
+      ...params,
+      _embed: true,
+      ...(!allLanguages && {
+        lang: 'en',
+      }),
+    },
+    cancelToken,
+  });
+
+  return countries;
+}

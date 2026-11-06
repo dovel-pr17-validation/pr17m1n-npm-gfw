@@ -1,0 +1,35 @@
+@import '~styles/settings.scss';
+
+/* legend component styles */
+.c-legend-list {
+  overflow-x: hidden !important;
+}
+
+.c-legend-item {
+  z-index: unset !important;
+}
+
+.c-legend-item,
+.c-legend-item-basic {
+  font-family: inherit !important;
+
+  .custom-icon {
+    width: 16px !important;
+    height: 16px !important;
+
+    img {
+      width: 15px !important;
+      height: 15px !important;
+    }
+  }
+
+  .legend-item-header > h3 {
+    font-size: rem(14px);
+    font-weight: 400 !important;
+    color: $slate;
+  }
+}
+
+.c-legend-item-types {
+  margin-bottom: rem(15px);
+}

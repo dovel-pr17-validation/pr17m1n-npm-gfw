@@ -1,0 +1,87 @@
+@import '~styles/settings.scss';
+$mobile-padding: rem(20px);
+$desktop-padding: rem(40px);
+
+.c-modal-welcome {
+  background-color: #333 !important;
+  color: $white;
+  max-width: rem(920px) !important;
+
+  .modal-title {
+    color: $white !important;
+  }
+
+  p {
+    font-size: rem(16px);
+    color: $white;
+  }
+
+  a {
+    color: $green-gfw;
+  }
+
+  .intro {
+    font-size: rem(18px);
+    font-weight: 300;
+    margin-bottom: rem(30px);
+  }
+
+  .outro {
+    display: flex;
+    justify-content: space-between;
+    margin: rem(50px) 0 rem(10px) 0;
+
+    p {
+      font-size: $font-size-s;
+      color: #aaa;
+    }
+
+    .show-prompts-btn {
+      display: flex;
+      color: #aaa;
+      cursor: pointer;
+      font-size: rem(12px);
+      align-items: center;
+
+      .prompts-checkbox {
+        margin-right: rem(10px);
+      }
+    }
+  }
+
+  .guide-btn {
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .map-tour-steps {
+    display: flex;
+  }
+
+  .map-tour-step {
+    width: calc(100% / 3);
+    margin: 7.5px;
+    background: $white;
+
+    p {
+      padding: rem(24px);
+      font-size: rem(14px);
+      color: $slate-light;
+    }
+
+    &:first-child { margin-left: 0; }
+    &:last-child { margin-right: 0; }
+  }
+
+  .map-tour-thumbnail {
+    width: 100%;
+  }
+
+  .tour-btn {
+    margin-bottom: rem(30px);
+  }
+}

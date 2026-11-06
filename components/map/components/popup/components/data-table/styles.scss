@@ -1,0 +1,38 @@
+@import '~styles/settings.scss';
+
+.c-data-table {
+  font-size: rem(14px);
+
+  .table {
+    margin-bottom: 20px;
+
+    .wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+      margin-bottom: 10px;
+      gap: 16px;
+
+      .value {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        word-break: break-word;
+      }
+
+      .table-link {
+        color: $green-gfw;
+      }
+
+      .label {
+        flex: 0 0 120px;
+        font-weight: 500;
+        text-transform: uppercase;
+        word-break: break-all;
+      }
+    }
+  }
+}

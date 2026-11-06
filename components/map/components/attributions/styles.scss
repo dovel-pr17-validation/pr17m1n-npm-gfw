@@ -1,0 +1,74 @@
+@import '~styles/settings.scss';
+
+.c-map-attributions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  &.-mobile {
+    gap: 8px;
+    padding-right: 24px;
+  }
+
+  .logos,
+  .links {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 28px;
+  }
+
+  a,
+  span {
+    margin-left: rem(10px);
+    color: $map-grey;
+    font-size: rem(10px);
+
+    &:hover {
+      color: $map-grey;
+    }
+  }
+
+  .logos {
+    display: flex;
+    align-items: center;
+    height: 25px;
+
+    a {
+      margin-right: rem(10px);
+      margin-left: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .mapbox-logo {
+    width: auto;
+    height: rem(20px);
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .attribution-btn {
+    position: absolute;
+    right: 24px;
+    bottom: 78px;
+    opacity: 0.8;
+    min-width: 14px;
+    min-height: 14px;
+
+    > div {
+      margin-top: 0;
+    }
+
+    svg {
+      width: 8px;
+      height: 8px;
+    }
+  }
+}

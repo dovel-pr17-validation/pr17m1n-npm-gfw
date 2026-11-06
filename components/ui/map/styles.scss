@@ -1,0 +1,16 @@
+@import '~styles/settings';
+@import '~mapbox-gl/dist/mapbox-gl.css';
+
+.c-mapbox-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .mapboxgl-ctrl-logo {
+    display: none;
+  }
+}
+
+.mapboxgl-canvas {
+  cursor: inherit !important;
+}

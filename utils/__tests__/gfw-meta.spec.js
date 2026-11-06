@@ -1,0 +1,109 @@
+import { jest } from '@jest/globals';
+import getGfwMeta, { handleGfwParamsMeta } from '../gfw-meta';
+
+jest.mock('services/analysis-cached', () => ({
+  fetchGLADLatest: jest.fn(),
+  fetchIntegratedLatest: jest.fn(),
+  fetchVIIRSLatest: jest.fn(),
+}));
+
+const { fetchGLADLatest, fetchIntegratedLatest, fetchVIIRSLatest } =
+  jest.requireMock('services/analysis-cached');
+
+describe('utils/gfw-meta', () => {
+  beforeEach(() => {
+    fetchGLADLatest.mockResolvedValue({
+      attributes: {
+        updatedAt: '2024-01-08',
+      },
+    });
+    fetchIntegratedLatest.mockResolvedValue({
+      attributes: {
+        updatedAt: '2024-01-15',
+      },
+    });
+    fetchVIIRSLatest.mockResolvedValue({
+      date: '2024-01-20',
+      rawDate: '2024-01-10',
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('builds default date ranges for GLAD, INTEGRATED and VIIRS datasets', async () => {
+    const meta = await getGfwMeta();
+
+    expect(meta.datasets.GLAD.defaultEndDate).toBe('2024-01-08');
+    expect(meta.datasets.GLAD.defaultStartDate).toBe('2024-01-01');
+
+    expect(meta.datasets.INTEGRATED.defaultEndDate).toBe('2024-01-15');
+    expect(meta.datasets.INTEGRATED.defaultStartDate).toBe('2024-01-08');
+
+    expect(meta.datasets.VIIRS.defaultEndDate).toBe('2024-01-20');
+    expect(meta.datasets.VIIRS.defaultStartDate).toBe('2024-01-13');
+  });
+
+  it('keeps the VIIRS raw table end date apart from the precomputed one', async () => {
+    const meta = await getGfwMeta();
+
+    expect(meta.datasets.VIIRS.rawEndDate).toBe('2024-01-10');
+  });
+
+  it('returns existing meta datasets from params when present', async () => {
+    const existing = {
+      GLAD: { updatedAt: 'existing' },
+    };
+
+    const result = await handleGfwParamsMeta({
+      GFW_META: { datasets: existing },
+    });
+
+    expect(result).toBe(existing);
+  });
+
+  it('fetches new meta when datasets are missing or empty', async () => {
+    const result = await handleGfwParamsMeta({});
+
+    expect(result.GLAD).toBeDefined();
+    expect(result.INTEGRATED).toBeDefined();
+    expect(result.VIIRS).toBeDefined();
+  });
+});
+
+describe('utils/gfw-meta concurrency', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('fetches the three dataset dates concurrently', async () => {
+    // Each fetch now also queries its precomputed table for the latest alert
+    // date, so running them in series would add seconds to app boot.
+    const resolvers = [];
+    const pending = () =>
+      new Promise((resolve) => {
+        resolvers.push(resolve);
+      });
+
+    fetchGLADLatest.mockReturnValueOnce(pending());
+    fetchIntegratedLatest.mockReturnValueOnce(pending());
+    fetchVIIRSLatest.mockReturnValueOnce(pending());
+
+    const metaPromise = getGfwMeta();
+
+    // Let any already-queued microtasks drain without resolving the fetches.
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(fetchGLADLatest).toHaveBeenCalledTimes(1);
+    expect(fetchIntegratedLatest).toHaveBeenCalledTimes(1);
+    expect(fetchVIIRSLatest).toHaveBeenCalledTimes(1);
+
+    resolvers[0]({ attributes: { updatedAt: '2024-01-08' } });
+    resolvers[1]({ attributes: { updatedAt: '2024-01-15' } });
+    resolvers[2]({ date: '2024-01-20' });
+
+    await metaPromise;
+  });
+});

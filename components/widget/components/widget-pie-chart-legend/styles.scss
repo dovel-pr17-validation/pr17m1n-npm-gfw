@@ -1,0 +1,22 @@
+.c-pie-chart-legend-widget {
+  padding-top: rem(30px);
+
+  .pie-and-legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4%;
+
+    &-grouped {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .cover-legend {
+    min-width: 50%;
+  }
+
+  .pie-contextual-settings-btn {
+    margin: 0 10px 30px auto;
+  }
+}
